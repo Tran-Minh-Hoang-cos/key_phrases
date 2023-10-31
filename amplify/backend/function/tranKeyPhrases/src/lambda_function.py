@@ -15,7 +15,6 @@ tagger = MeCab.Tagger('-O{} -d{} -r{}'.format(output_format_type, dicdir, rcfile
 def lambda_handler(event, context):
     try:
         morphemes = tagger.parse(event)
-        print(morphemes)
         response = {
             'statusCode': 200,
             'headers': {
@@ -26,7 +25,7 @@ def lambda_handler(event, context):
         }
     except json.JSONDecodeError as e:
         response = {
-            'statusCode': 400,  # Mã lỗi dựa trên HTTP
+            'statusCode': 400,  # HTTPに関連のエラー
             'headers': {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
@@ -35,7 +34,7 @@ def lambda_handler(event, context):
         }
     except Exception as e:
         response = {
-            'statusCode': 500,  # Lỗi máy chủ nội bộ
+            'statusCode': 500,  # clientに関連のエラー
             'headers': {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'

@@ -15,10 +15,10 @@ max_token = os.environ['Limit_number_of_input_text']
 word_length = os.environ['word_length']
 stopwords = os.getenv("stop_words").split(',')
 
-# Hàm kiểm tra độ dài tối đa cho mỗi phần văn bản
+# インプット文書の長さを決める
 max_length_per_segment = int(max_token)
 
-# Hàm chia văn bản thành các phần nhỏ hơn có độ dài tối đa
+# 文章はmaxtokenを通じて、分割する
 def split_text(text, max_length):
     segments = [text[i:i+max_length] for i in range(0, len(text), max_length)]
     return segments[0]
@@ -63,9 +63,3 @@ def handler(event, context):
         # エラー処理
         return handle_error(e)
 
-# def handler(event, context):
-#     print("received event:")
-#     event: AppSyncResolverEvent = AppSyncResolverEvent(event)
-#     text=event.arguments.get('msg')
-#     result = 'Hello'+text
-#     return result
