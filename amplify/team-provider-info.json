@@ -1,0 +1,39 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tranamplify-dev-141224-authRole",
+      "UnauthRoleArn": "arn:aws:iam::028425972705:role/amplify-tranamplify-dev-141224-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::028425972705:role/amplify-tranamplify-dev-141224-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-tranamplify-dev-141224-deployment",
+      "UnauthRoleName": "amplify-tranamplify-dev-141224-unauthRole",
+      "StackName": "amplify-tranamplify-dev-141224",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:028425972705:stack/amplify-tranamplify-dev-141224/6ab57d30-7487-11ee-bb28-06bbc29e5367",
+      "AmplifyAppId": "d34q9sp6hqvh7e"
+    },
+    "categories": {
+      "function": {
+        "tranKeyPhrases": {
+          "numberOfWordsExtracted": "3",
+          "limitNumberOfInputText": "300",
+          "wordLength": "7",
+          "stopWords": "あの,その,この,あち,そち,こち",
+          "deploymentBucketName": "amplify-tranamplify-dev-141224-deployment",
+          "s3Key": "amplify-builds/tranKeyPhrases-4868453339674f43694e-build.zip"
+        }
+      },
+      "api": {
+        "tranamplify": {}
+      },
+      "auth": {
+        "tranamplify233d090f": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d34q9sp6hqvh7e",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}

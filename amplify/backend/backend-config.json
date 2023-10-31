@@ -1,0 +1,126 @@
+{
+  "api": {
+    "tranamplify": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
+  "auth": {
+    "tranamplify233d090f": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "tranKeyPhrases": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "hosting": {
+    "amplifyhosting": {
+      "providerPlugin": "awscloudformation",
+      "service": "amplifyhosting",
+      "type": "manual"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_tranKeyPhrases_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "tranKeyPhrases"
+        }
+      ]
+    },
+    "AMPLIFY_function_tranKeyPhrases_limitNumberOfInputText": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "tranKeyPhrases"
+        }
+      ]
+    },
+    "AMPLIFY_function_tranKeyPhrases_numberOfWordsExtracted": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "tranKeyPhrases"
+        }
+      ]
+    },
+    "AMPLIFY_function_tranKeyPhrases_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "tranKeyPhrases"
+        }
+      ]
+    },
+    "AMPLIFY_function_tranKeyPhrases_stopWords": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "tranKeyPhrases"
+        }
+      ]
+    },
+    "AMPLIFY_function_tranKeyPhrases_wordLength": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "tranKeyPhrases"
+        }
+      ]
+    },
+    "AMPLIFY_hosting_amplifyhosting_appId": {
+      "usedBy": [
+        {
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
+        }
+      ]
+    },
+    "AMPLIFY_hosting_amplifyhosting_type": {
+      "usedBy": [
+        {
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
+        }
+      ]
+    }
+  }
+}

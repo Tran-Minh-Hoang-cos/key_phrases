@@ -1,0 +1,21 @@
+{
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "numberOfWordsExtracted",
+      "environmentVariableName": "number_of_words_extracted"
+    },
+    {
+      "cloudFormationParameterName": "limitNumberOfInputText",
+      "environmentVariableName": "Limit_number_of_input_text"
+    },
+    {
+      "cloudFormationParameterName": "wordLength",
+      "environmentVariableName": "word_length"
+    },
+    {
+      "cloudFormationParameterName": "stopWords",
+      "environmentVariableName": "stop_words"
+    }
+  ]
+}
