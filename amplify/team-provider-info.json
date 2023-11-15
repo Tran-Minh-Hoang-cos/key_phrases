@@ -19,11 +19,8 @@
           "wordLength": "7",
           "stopWords": "あの,その,この,あち,そち,こち",
           "deploymentBucketName": "amplify-tranamplify-dev-141224-deployment",
-          "s3Key": "amplify-builds/tranKeyPhrases-4868453339674f43694e-build.zip"
+          "s3Key": "amplify-builds/tranKeyPhrases-4c576a78425478465647-build.zip"
         }
-      },
-      "api": {
-        "tranamplify": {}
       },
       "auth": {
         "tranamplify233d090f": {}
@@ -33,6 +30,12 @@
           "appId": "d34q9sp6hqvh7e",
           "type": "manual"
         }
+      },
+      "api": {
+        "tranamplify": {}
+      },
+      "storage": {
+        "s3trantest": {}
       }
     }
   }

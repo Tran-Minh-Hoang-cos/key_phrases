@@ -1,0 +1,13 @@
+{
+  "resourceName": "s3trantest",
+  "policyUUID": "caba59d4",
+  "bucketName": "tranamplifyd16c3e0dd7ff402a87d75f7765e32494",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

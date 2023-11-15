@@ -18,11 +18,24 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
+    "tranEFSmount": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "tranKeyPhrases": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
+      "Region": "string"
+    }
+  },
+  "storage": {
+    "s3trantest": {
+      "BucketName": "string",
       "Region": "string"
     }
   }

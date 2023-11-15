@@ -1,14 +1,12 @@
 /* src/App.js */
 import React, { useEffect, useState } from 'react'
-import { Amplify, API, graphqlOperation } from 'aws-amplify'
+import { Amplify, API, graphqlOperation,Storage } from 'aws-amplify'
 import { createTranSchema,createTranEcho } from './graphql/mutations'
 import { listTranSchemas ,echo,listTranEchos} from './graphql/queries'
 import Grid from '@mui/material/Unstable_Grid2';
-import { withAuthenticator, Button, Text, TextField, View } from '@aws-amplify/ui-react';
-import { Paper, LinearProgress} from '@mui/material';
-
+import { withAuthenticator, Text, TextField, View,FileUploader } from '@aws-amplify/ui-react';
+import { Paper, Button,LinearProgress, ToggleButton, ToggleButtonGroup} from '@mui/material';
 import '@aws-amplify/ui-react/styles.css';
-
 import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
 
@@ -20,7 +18,33 @@ const App = ({ signOut, user }) => {
   const [keyData, setKeyData] = useState([])
   const [dataLoad,setDataLoad] = useState([])
   const [loading, setLoading] = useState(true);
+  const [alignment, setAlignment] = React.useState('keyphrases');
+  const [message, setMessage] = React.useState('');
+  const [file, setFile] = useState(null);
+  const onSuccess = ({ key }) => {
+    setMessage(`Key: ${key}`);
+    setFile(key);
+  };
 
+  const handleUpload = async () => {
+    if (file) {
+      try {
+        await Storage.put(file.name, file, {
+          level: 'private',
+          contentType: file.type,
+        });
+        console.log('File uploaded successfully');
+      } catch (error) {
+        console.error('Error uploading file', error);
+      }
+    } else {
+      console.warn('No file selected');
+    }
+  };
+  const handleChange = (event, newAlignment) => {
+      console.log(newAlignment);
+      setAlignment(newAlignment);
+  };
   useEffect(() => {
     fetchTodos();
   }, [fetchTodos])
@@ -121,6 +145,19 @@ const App = ({ signOut, user }) => {
           <Grid container spacing={2}>
               <Grid item xs={12}>
                 <View style={styles.container}>
+                <ToggleButtonGroup
+                  color='standard'
+                  value={alignment}
+                  exclusive
+                  onChange={handleChange}
+                  aria-label="Platform"
+                  style={styles.toggleButtonGroup}
+                >
+                  <ToggleButton value="keyphrases">keyphrases</ToggleButton>
+                  <ToggleButton value="uploadFile">uploadFile</ToggleButton>
+                </ToggleButtonGroup>
+                {alignment == 'keyphrases' ? (
+                  <>
                   <TextField
                     placeholder="Name"
                     onChange={event => setInput('name', event.target.value)}
@@ -134,10 +171,24 @@ const App = ({ signOut, user }) => {
                     defaultValue={formState.msg}
                   />
                   <Button style={styles.button} onClick={addTodo}>キーワード抽出</Button>
+                  </>
+                ):(
+                  <>
+                    <FileUploader
+                      onSuccess={onSuccess}
+                      variation="drop"
+                      acceptedFileTypes={['.docx', '.xlsx', '.doc', '.md', '.json', '.pdf', '.txt']}
+                      accessLevel="public"
+                      onClick={handleUpload}
+                      style={{maxHeight:"80px"}}
+                    />
+                    {message}
+                  </>
+                )}
+                  
                 </View>
                 <View style={styles.container}>
-                
-                <Paper style={{ borderRadius:"10px",height: '50vh' ,justifyContent: 'center',backgroundColor: '#ddd', maxHeight: '440px',overflow: 'auto', margin: '10px', padding: 20 }}>
+                <Paper style={{ borderRadius:"10px",height: '50vh' ,justifyContent: 'center',backgroundColor: '#ddd', maxHeight: '378px',overflow: 'auto', margin: '10px', padding: 20 }}>
                 {loading ? (
                   <LinearProgress style={{top:"-13px"}}/>
                   ) : null }
@@ -165,7 +216,20 @@ const styles = {
   input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
   todoName: { fontSize: 20, fontWeight: 'bold' },
   todomsg: { marginBottom: 0 },
-  button: { backgroundColor: 'black', color: 'white',borderRadius:'8px', outline: 'none', fontSize: 18, padding: '12px 0px' }
+  button: { backgroundColor: 'black', color: 'white',borderRadius:'8px', outline: 'none', fontSize: 18, padding: '12px 0px' },
+  toggleButtonGroup: {flexDirection: 'row',
+  justifyContent: 'center',
+  marginBottom: 16},
+  VisuallyHiddenInput:{ clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,}
+  
 }
 
 export default withAuthenticator(App);
