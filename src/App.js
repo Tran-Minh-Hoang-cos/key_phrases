@@ -1,8 +1,8 @@
 /* src/App.js */
 import React, { useEffect, useState } from 'react'
 import { Amplify, API, graphqlOperation,Storage } from 'aws-amplify'
-import { createTranSchema,createTranEcho } from './graphql/mutations'
-import { listTranSchemas ,echo,listTranEchos} from './graphql/queries'
+import { createTranSchema,createTranEcho,createTranLoadFile } from './graphql/mutations'
+import { listTranSchemas ,echo,load,listTranEchos,listTranLoadFiles} from './graphql/queries'
 import Grid from '@mui/material/Unstable_Grid2';
 import { withAuthenticator, Text, TextField, View,FileUploader } from '@aws-amplify/ui-react';
 import { Paper, Button,LinearProgress, ToggleButton, ToggleButtonGroup} from '@mui/material';
@@ -17,37 +17,72 @@ const App = ({ signOut, user }) => {
   const [todos, setTodos] = useState([])
   const [keyData, setKeyData] = useState([])
   const [dataLoad,setDataLoad] = useState([])
+  const [ListLoading, setListLoading] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [alignment, setAlignment] = React.useState('keyphrases');
-  const [message, setMessage] = React.useState('');
+  const [alignment, setAlignment] = useState('keyphrases');
+  const [message, setMessage] = useState('');
   const [file, setFile] = useState(null);
-  const onSuccess = ({ key }) => {
-    setMessage(`Key: ${key}`);
-    setFile(key);
-  };
+  const [fileLoad,setFileLoad] = useState([]);
+  const [S3List,setS3List] = useState([]);
 
-  const handleUpload = async () => {
-    if (file) {
-      try {
-        await Storage.put(file.name, file, {
-          level: 'private',
-          contentType: file.type,
-        });
-        console.log('File uploaded successfully');
-      } catch (error) {
-        console.error('Error uploading file', error);
-      }
-    } else {
-      console.warn('No file selected');
+
+  const onSuccess = async ({ key }) => {
+    setMessage(`Key: ${key}`);
+    setLoading(true)
+    const response = await API.graphql(graphqlOperation(load, {file:key}));
+    const text = response.data.load
+    await createLoadFile(key,text)
+    await fetchS3List()
+    setLoading(false)
+
+  };
+  const handleTextClick = async (key) => {
+    try {
+      setFileLoad(key)
+      setListLoading(true)
+    } catch (error) {
+      console.error('Error in GraphQL query:', error);
     }
   };
+
   const handleChange = (event, newAlignment) => {
+      if(event != "keyphrases"){
+        fetchS3List()
+      }
       console.log(newAlignment);
-      setAlignment(newAlignment);
+      setAlignment(newAlignment);      
   };
   useEffect(() => {
     fetchTodos();
   }, [fetchTodos])
+
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       await Storage.list('', { level: "public" }) 
+//       .then (result => setS3List(result.results))
+//       .catch(err => console.log(err));
+//     } catch (error) {
+//       console.error('Error fetching data:', error);
+//     }
+//   };
+
+//    fetchData();
+// }, [message]);
+
+
+const fetchS3List = async () => {
+    try {
+      const todoData = await API.graphql(graphqlOperation(listTranLoadFiles))
+      const name = todoData.data.listTranLoadFiles?.items
+      console.log(name)
+      setS3List(name)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+
 
   async function sortField(data) {
     data?.sort((a, b) => {
@@ -67,7 +102,7 @@ const App = ({ signOut, user }) => {
           
           if (matchingObject) {
             acc.push({ ...currentValue, ...matchingObject });
-          }
+        }
         
           return acc;
         }, []);
@@ -86,6 +121,12 @@ const App = ({ signOut, user }) => {
       setDataLoad(keyData)
       //fetchKeyData()
     } catch (err) { console.log('error fetching todos') }
+  }
+
+  async function createLoadFile(fileName,key) {
+    try {
+      const keyData = await API.graphql(graphqlOperation(createTranLoadFile, {input: {filename: fileName , document: key}}))
+    } catch (err) { console.log('error createLoadFile') }
   }
 
   function setInput(key, value) {
@@ -120,9 +161,9 @@ const App = ({ signOut, user }) => {
     
   return (
     <Grid container spacing={2} style={{margin:"20px 40px"}}>
-        <Grid xs={8}>
+    {alignment == 'keyphrases' ? (<Grid xs={8}>
         {
-          !todos ? (
+          !todos ?(
             <Paper style={styles.containerMain}>
               <Text style={styles.todoName}>No Data</Text>
             </Paper>
@@ -140,7 +181,20 @@ const App = ({ signOut, user }) => {
           )
         }
 
-        </Grid>
+        </Grid>):(
+          <Grid xs={8}>
+              <Paper style={styles.containerMain}>
+                <Paper elevation={3} style={styles.todo}>
+                  {ListLoading ? (
+                    <span>{fileLoad}</span>
+                  ):(
+                    null
+                  )} 
+                  </Paper>
+              </Paper>
+          </Grid>
+        )}
+        
         <Grid xs={4} style={{ display: 'flex', flexDirection: 'column'}}>
           <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -179,8 +233,7 @@ const App = ({ signOut, user }) => {
                       variation="drop"
                       acceptedFileTypes={['.docx', '.xlsx', '.doc', '.md', '.json', '.pdf', '.txt']}
                       accessLevel="public"
-                      onClick={handleUpload}
-                      style={{maxHeight:"80px"}}
+                      sx={{maxHeight:"75px",padding:'-8px'}}
                     />
                     {message}
                   </>
@@ -192,14 +245,35 @@ const App = ({ signOut, user }) => {
                 {loading ? (
                   <LinearProgress style={{top:"-13px"}}/>
                   ) : null }
-                    {keyData && keyData.map((key,index) => (
-                      <Paper elevation={3} style={{display: 'flex',padding:'5px',margin:"12px"}}>
-                        <Text style={{display: 'flex', flexDirection: 'row'}}>
-                          <Text style={{fontWeight: 'bold'}}>{key.name}:  </Text>
-                          <Text>{key.message}</Text>
-                          </Text>
+                {alignment === 'keyphrases' ? (
+                  keyData && keyData.map((key, index) => (              
+                    <Paper elevation={3} style={{ display: 'flex', padding: '5px', margin: "12px" }}>
+                      <Text style={{ display: 'flex', flexDirection: 'row' }}>
+                        <Text style={{ fontWeight: 'bold' }}>{key.name}:  </Text>
+                        <Text>{key.message}</Text>
+                      </Text>
                     </Paper>
-                    ))}
+                  ))
+                ) : (
+                  S3List && S3List.map((key, index) => (
+                  <Paper elevation={3} style={{ display: 'flex', padding: '5px', margin: "12px" }}>
+                    {loading ? (
+                      <LinearProgress style={{top:"-13px"}}/>
+                      ) : null }
+                      <a
+                        href="#"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        onClick={() => handleTextClick(key.document)}
+                      >
+                        <Text style={{ display: 'flex', flexDirection: 'row', cursor: 'pointer' }}>
+                          <Text style={{ fontWeight: 'bold' }}> {key.filename}</Text>
+                        </Text>
+                        </a>
+                    </Paper>
+                    ))
+                )}
+
+                                    
                     </Paper>
                 </View>
               </Grid>

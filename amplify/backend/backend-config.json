@@ -46,6 +46,11 @@
     }
   },
   "function": {
+    "tranEFSmount": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "tranKeyPhrases": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -60,6 +65,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_tranEFSmount_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "tranEFSmount"
+        }
+      ]
+    },
+    "AMPLIFY_function_tranEFSmount_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "tranEFSmount"
+        }
+      ]
+    },
     "AMPLIFY_function_tranKeyPhrases_deploymentBucketName": {
       "usedBy": [
         {

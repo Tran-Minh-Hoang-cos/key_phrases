@@ -15,6 +15,15 @@ type TranSchema @model {
   echoes: [TranEcho] @hasMany
 }
 
+type TranLoadFile @model {
+  id: ID!
+  filename: String!
+  document: String
+}
+
+
+
 type Query {
   echo(msg: String): String @function(name: "tranKeyPhrases-${env}")
+  load(file: String): String @function(name: "tranamplify8c2bebea-${env}")
 }

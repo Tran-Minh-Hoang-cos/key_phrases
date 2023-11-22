@@ -127,3 +127,48 @@ export const deleteTranSchema = /* GraphQL */ `
     }
   }
 `;
+export const createTranLoadFile = /* GraphQL */ `
+  mutation CreateTranLoadFile(
+    $input: CreateTranLoadFileInput!
+    $condition: ModelTranLoadFileConditionInput
+  ) {
+    createTranLoadFile(input: $input, condition: $condition) {
+      id
+      filename
+      document
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateTranLoadFile = /* GraphQL */ `
+  mutation UpdateTranLoadFile(
+    $input: UpdateTranLoadFileInput!
+    $condition: ModelTranLoadFileConditionInput
+  ) {
+    updateTranLoadFile(input: $input, condition: $condition) {
+      id
+      filename
+      document
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteTranLoadFile = /* GraphQL */ `
+  mutation DeleteTranLoadFile(
+    $input: DeleteTranLoadFileInput!
+    $condition: ModelTranLoadFileConditionInput
+  ) {
+    deleteTranLoadFile(input: $input, condition: $condition) {
+      id
+      filename
+      document
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;

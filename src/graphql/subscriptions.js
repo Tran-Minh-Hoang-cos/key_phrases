@@ -115,3 +115,45 @@ export const onDeleteTranSchema = /* GraphQL */ `
     }
   }
 `;
+export const onCreateTranLoadFile = /* GraphQL */ `
+  subscription OnCreateTranLoadFile(
+    $filter: ModelSubscriptionTranLoadFileFilterInput
+  ) {
+    onCreateTranLoadFile(filter: $filter) {
+      id
+      filename
+      document
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateTranLoadFile = /* GraphQL */ `
+  subscription OnUpdateTranLoadFile(
+    $filter: ModelSubscriptionTranLoadFileFilterInput
+  ) {
+    onUpdateTranLoadFile(filter: $filter) {
+      id
+      filename
+      document
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteTranLoadFile = /* GraphQL */ `
+  subscription OnDeleteTranLoadFile(
+    $filter: ModelSubscriptionTranLoadFileFilterInput
+  ) {
+    onDeleteTranLoadFile(filter: $filter) {
+      id
+      filename
+      document
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;

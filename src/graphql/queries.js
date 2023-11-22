@@ -6,6 +6,11 @@ export const echo = /* GraphQL */ `
     echo(msg: $msg)
   }
 `;
+export const load = /* GraphQL */ `
+  query Load($file: String) {
+    load(file: $file)
+  }
+`;
 export const getTranEcho = /* GraphQL */ `
   query GetTranEcho($id: ID!) {
     getTranEcho(id: $id) {
@@ -73,6 +78,38 @@ export const listTranSchemas = /* GraphQL */ `
         id
         name
         msg
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getTranLoadFile = /* GraphQL */ `
+  query GetTranLoadFile($id: ID!) {
+    getTranLoadFile(id: $id) {
+      id
+      filename
+      document
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listTranLoadFiles = /* GraphQL */ `
+  query ListTranLoadFiles(
+    $filter: ModelTranLoadFileFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTranLoadFiles(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        filename
+        document
         createdAt
         updatedAt
         __typename

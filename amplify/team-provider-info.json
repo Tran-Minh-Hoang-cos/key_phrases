@@ -19,11 +19,59 @@
           "wordLength": "7",
           "stopWords": "あの,その,この,あち,そち,こち",
           "deploymentBucketName": "amplify-tranamplify-dev-141224-deployment",
-          "s3Key": "amplify-builds/tranKeyPhrases-4c576a78425478465647-build.zip"
+          "s3Key": "amplify-builds/tranKeyPhrases-68616456427261427048-build.zip"
+        },
+        "tranEFSmount": {
+          "deploymentBucketName": "amplify-tranamplify-dev-141224-deployment",
+          "s3Key": "amplify-builds/tranEFSmount-546b76455233754b6768-build.zip"
         }
       },
       "auth": {
         "tranamplify233d090f": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d34q9sp6hqvh7e",
+          "type": "manual"
+        }
+      },
+      "api": {
+        "tranamplify": {}
+      },
+      "storage": {
+        "s3trantest": {}
+      }
+    }
+  },
+  "stg": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tranamplify-stg-102737-authRole",
+      "UnauthRoleArn": "arn:aws:iam::028425972705:role/amplify-tranamplify-stg-102737-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::028425972705:role/amplify-tranamplify-stg-102737-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-tranamplify-stg-102737-deployment",
+      "UnauthRoleName": "amplify-tranamplify-stg-102737-unauthRole",
+      "StackName": "amplify-tranamplify-stg-102737",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:028425972705:stack/amplify-tranamplify-stg-102737/29b2bdb0-8356-11ee-9cd8-0a404af2f52d",
+      "AmplifyAppId": "d34q9sp6hqvh7e"
+    },
+    "categories": {
+      "auth": {
+        "tranamplify233d090f": {}
+      },
+      "function": {
+        "tranKeyPhrases": {
+          "numberOfWordsExtracted": "3",
+          "limitNumberOfInputText": "300",
+          "wordLength": "7",
+          "stopWords": "あの,その,この,あち,そち,こち",
+          "deploymentBucketName": "amplify-tranamplify-stg-102737-deployment",
+          "s3Key": "amplify-builds/tranKeyPhrases-4c576a78425478465647-build.zip"
+        },
+        "tranamplify8c2bebea": {
+          "deploymentBucketName": "amplify-tranamplify-stg-102737-deployment",
+          "s3Key": "amplify-builds/tranamplify8c2bebea-7a61692b324150744956-build.zip"
+        }
       },
       "hosting": {
         "amplifyhosting": {
